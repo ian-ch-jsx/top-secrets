@@ -22,7 +22,7 @@ describe('top-secrets routes', () => {
 
     expect(res.body).toEqual({
       id: expect.any(String),
-      ...mockUser,
+      email: 'test@example.com',
     });
   });
 });

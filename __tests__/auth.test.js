@@ -32,7 +32,7 @@ describe('top-secrets routes', () => {
       email: 'test@example.com',
       password: 'password',
     });
-
+    console.log('user', user);
     const res = await request(app).post('/api/v1/auth/login').send(mockUser);
 
     expect(res.body).toEqual({

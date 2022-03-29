@@ -41,10 +41,20 @@ describe('top-secrets routes', () => {
     });
   });
 
-  // it('logs out a user', async () => {
-  //   const user = await UserService.create({
-  //     email: 'test@example.com',
-  //     password: 'password',
-  //   });
-  // });
+  it('should sign out the user', async () => {
+    await UserService.create({
+      email: 'test@example.com',
+      password: 'password',
+    });
+    await UserService.signIn({
+      email: 'test@example.com',
+      password: 'password',
+    });
+    const res = await request(app).delete('/api/v1/auth/session');
+
+    expect(res.body).toEqual({
+      success: true,
+      message: 'Logout successful.',
+    });
+  });
 });

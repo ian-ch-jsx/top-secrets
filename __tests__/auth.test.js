@@ -12,14 +12,17 @@ describe('top-secrets routes', () => {
     pool.end();
   });
 
+  const mockUser = {
+    email: 'test@example.com',
+    password: 'password',
+  };
+
   it('signs up a user via POST', async () => {
-    const res = await request(app)
-      .post('/api/v1/auth/signup')
-      .send({ email: 'test@example.com', password: 'password' });
+    const res = await request(app).post('/api/v1/auth/').send(mockUser);
 
     expect(res.body).toEqual({
       id: expect.any(String),
-      email: 'test@example.com',
+      ...mockUser,
     });
   });
 });

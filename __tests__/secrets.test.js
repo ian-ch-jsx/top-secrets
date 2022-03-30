@@ -37,12 +37,17 @@ describe('top-secrets routes', () => {
   it('allows an authorized user to post secrets', async () => {
     const agent = request.agent(app);
 
-    await agent
-      .post('/api/v1/users')
-      .send({ email: 'test@example.com', password: 'password' });
+    await UserService.create({
+      email: 'test@example.com',
+      password: 'password',
+    });
+
+    // await agent
+    //   .post('/api/v1/auth')
+    //   .send({ email: 'test@example.com', password: 'password' });
 
     await agent
-      .post('/api/v1/users/sessions')
+      .post('/api/v1/auth/login')
       .send({ email: 'test@example.com', password: 'password' });
 
     const res = await agent

@@ -33,4 +33,27 @@ describe('top-secrets routes', () => {
 
     expect(res.status).toEqual(200);
   });
+
+  it('allows an authorized user to post secrets', async () => {
+    const agent = request.agent(app);
+
+    await agent
+      .post('/api/v1/users')
+      .send({ email: 'test@example.com', password: 'password' });
+
+    await agent
+      .post('/api/v1/users/sessions')
+      .send({ email: 'test@example.com', password: 'password' });
+
+    const res = await agent
+      .post('/api/v1/secrets')
+      .send({ title: 'secret', description: 'description' });
+
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      title: 'secret',
+      description: 'description',
+      createdAt: expect.any(String),
+    });
+  });
 });

@@ -42,15 +42,19 @@ describe('top-secrets routes', () => {
       password: 'password',
     });
 
-    // await agent
-    //   .post('/api/v1/auth')
-    //   .send({ email: 'test@example.com', password: 'password' });
+    // no user
+    let res = await agent
+      .post('/api/v1/secrets')
+      .send({ title: 'secret', description: 'description' });
 
+    expect(res.status).toEqual(401);
+
+    // authorized user
     await agent
       .post('/api/v1/auth/login')
       .send({ email: 'test@example.com', password: 'password' });
 
-    const res = await agent
+    res = await agent
       .post('/api/v1/secrets')
       .send({ title: 'secret', description: 'description' });
 
